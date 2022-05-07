@@ -20,7 +20,7 @@ for row in range(0, 15):
         sg.Input(size=(15,1), pad=(0, 0), key=(row, 3))
     ])
 
-layout.append([sg.Button("Submit"), sg.Button("Generate CSV")])
+layout.append([sg.Button("Submit"), sg.Button("Generate CSV"), sg.Button("Clear")])
 
 window = sg.Window('Spreadsheet', layout, font='Courier 12')
 
@@ -41,6 +41,12 @@ def generate_csv(headings, values):
 
     file.close()
 
+def clear_all(window):
+    for row in range(15):
+        for column in range(4):
+            window[(row, column)].update('')
+
+
 while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Exit'):
@@ -49,3 +55,6 @@ while True:
         print(values[0,0])
     elif event == 'Generate CSV':
         generate_csv(headings, values)
+    elif event == 'Clear':
+        values = []
+        clear_all(window)
